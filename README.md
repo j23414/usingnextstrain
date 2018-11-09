@@ -36,7 +36,10 @@ augur align \
   --output results/aligned.fasta \
   --fill-gaps
 
+PATH=$PATH:~/bin/
+
 augur tree \
+  --method fasttree
   --alignment results/aligned.fasta \
   --output results/tree_raw.nwk
 
@@ -83,7 +86,8 @@ augur export \
   --output-tree auspice/zika_tree.json \
   --output-meta auspice/zika_meta.json
 
-nextstrain view auspice/
+# does not work on usda computer
+#nextstrain view auspice/
 ```
 
 Copy the url into your browser to view the files
