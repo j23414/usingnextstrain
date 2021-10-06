@@ -86,8 +86,26 @@ augur export \
   --output-tree auspice/zika_tree.json \
   --output-meta auspice/zika_meta.json
 
-# does not work on usda computer
 #nextstrain view auspice/
 ```
 
 Copy the url into your browser to view the files
+
+# Restart - 2021/10/06
+
+* Neher, R.A. and Bedford, T., 2015. [Nextflu: real-time tracking of seasonal influenza virus evolution in humans](https://api.semanticscholar.org/CorpusID:880543). Bioinformatics, 31(21), pp.3546-3548.
+* Hadfield, J., Megill, C., Bell, S.M., Huddleston, J., Potter, B., Callender, C., Sagulenko, P., Bedford, T. and Neher, R.A., 2018. [Nextstrain: real-time tracking of pathogen evolution](https://api.semanticscholar.org/CorpusID:8134099). Bioinformatics, 34(23), pp.4121-4123.
+* Huddleston, J., Hadfield, J., Sibley, T.R., Lee, J., Fay, K., Ilcisin, M., Harkins, E., Bedford, T., Neher, R.A. and Hodcroft, E.B., 2021. [Augur: a bioinformatics toolkit for phylogenetic analyses of human pathogens](https://api.semanticscholar.org/CorpusID:233312899). Journal of Open Source Software, 6(57), p.2906.
+
+* Other Papers: 
+  [2020_Bedford](https://api.semanticscholar.org/CorpusID:215782250)
+| [2020_Kim](https://api.semanticscholar.org/CorpusID:215718870)
+| [2020_Chu](https://api.semanticscholar.org/CorpusID:222235769)
+
+* Installation Instructions: https://docs.nextstrain.org/en/latest/install.html
+
+```
+# conda method on an 13in MacBook Pro 2016 (MacOS 11.6)
+conda create -n nextstrain -c conda-forge -c bioconda \
+  augur auspice nextstrain-cli nextalign snakemake awscli git pip
+```
