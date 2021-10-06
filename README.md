@@ -188,3 +188,81 @@ nextstrain build . --configfiles builds.yaml --cores 1 -n -p --dag | dot -Tpng >
 
 ![](dag.png)
 
+```
+nextstrain build . --configfiles builds.yaml --cores 1
+```
+
+<details><summary>output, may need to adjust build config</summary>
+  
+  ```
+  Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Conda environments: ignored
+Job stats:
+job                                  count    min threads    max threads
+---------------------------------  -------  -------------  -------------
+aa_muts_explicit                         1              1              1
+add_branch_labels                        1              1              1
+adjust_metadata_regions                  1              1              1
+align                                    1              1              1
+all                                      1              1              1
+ancestral                                1              1              1
+build_align                              1              1              1
+calculate_epiweeks                       1              1              1
+clades                                   1              1              1
+colors                                   1              1              1
+combine_input_metadata                   1              1              1
+combine_samples                          1              1              1
+combine_sequences_for_subsampling        1              1              1
+diagnostic                               1              1              1
+distances                                1              1              1
+emerging_lineages                        1              1              1
+export                                   1              1              1
+filter                                   2              1              1
+finalize                                 1              1              1
+include_hcov19_prefix                    1              1              1
+index_sequences                          1              1              1
+logistic_growth                          1              1              1
+mask                                     2              1              1
+mutational_fitness                       1              1              1
+recency                                  1              1              1
+refine                                   1              1              1
+rename_emerging_lineages                 1              1              1
+sanitize_metadata                        1              1              1
+subsample                                1              1              1
+tip_frequencies                          1              1              1
+traits                                   1              1              1
+translate                                1              1              1
+tree                                     1              1              1
+total                                   35              1              1
+
+Select jobs to execute...
+
+[Wed Oct  6 14:20:57 2021]
+rule sanitize_metadata:
+    input: data/example_metadata_aus.tsv.xz
+    output: results/sanitized_metadata_exampleAUS.tsv.xz
+    log: logs/sanitize_metadata_exampleAUS.txt
+    jobid: 13
+    benchmark: benchmarks/sanitize_metadata_exampleAUS.txt
+    wildcards: origin=exampleAUS
+    resources: tmpdir=/var/folders/wt/gw5b79wn4sjcpny6d0x4p1680000gn/T, mem_mb=2000
+
+
+        python3 scripts/sanitize_metadata.py             --metadata data/example_metadata_aus.tsv.xz             --metadata-id-columns strain name 'Virus name'             --database-id-columns 'Accession ID' gisaid_epi_isl genbank_accession             --parse-location-field Location             --rename-fields 'Virus name=strain' Type=type 'Accession ID=gisaid_epi_isl' 'Collection date=date' 'Additional location information=additional_location_information' 'Sequence length=length' Host=host 'Patient age=patient_age' Gender=sex Clade=GISAID_clade 'Pango lineage=pango_lineage' pangolin_lineage=pango_lineage Lineage=pango_lineage 'Pangolin version=pangolin_version' Variant=variant 'AA Substitutions=aa_substitutions' aaSubstitutions=aa_substitutions 'Submission date=date_submitted' 'Is reference?=is_reference' 'Is complete?=is_complete' 'Is high coverage?=is_high_coverage' 'Is low coverage?=is_low_coverage' N-Content=n_content GC-Content=gc_content             --strip-prefixes hCoV-19/ SARS-CoV-2/                          --output results/sanitized_metadata_exampleAUS.tsv.xz 2>&1 | tee logs/sanitize_metadata_exampleAUS.txt
+        
+ERROR: None of the possible database id columns (['Accession ID', 'gisaid_epi_isl', 'genbank_accession']) were found in the metadata's columns ('strain', 'date', 'region', 'country', 'division')
+Waiting at most 5 seconds for missing files.
+MissingOutputException in line 1 of /Users/jenchang/Desktop/2021_Test/ncov/workflow/snakemake_rules/main_workflow.smk:
+Job Missing files after 5 seconds:
+results/sanitized_metadata_exampleAUS.tsv.xz
+This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait.
+Job id: 13 completed successfully, but some output files are missing. 13
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /Users/jenchang/Desktop/2021_Test/ncov/.snakemake/log/2021-10-06T142056.352376.snakemake.log
+  ```
+
+</details>
