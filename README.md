@@ -183,6 +183,8 @@ inputs:
 ```
 
 ```
-nextstrain build . --configfiles builds.yaml --cores 1 -n -p
+nextstrain build . --configfiles builds.yaml --cores 1 -n -p --dag | dot -Tpng > dag.png
 ```
+
+![](dag.png)
 
