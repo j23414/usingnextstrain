@@ -113,4 +113,76 @@ conda create -n nextstrain -c conda-forge -c bioconda \
 conda install -n base -c conda-forge mamba
 mamba create -n nextstrain -c conda-forge -c bioconda \
   augur auspice nextstrain-cli nextalign snakemake awscli git pip
+  
+# Check install
+conda activate nextstrain
+nextstrain check-setup --set-default
 ```
+
+<details><summary>see output</summary>
+
+```
+nextstrain-cli is up to date!
+
+Testing your setup…
+
+# docker is not supported
+✘ no: docker is installed
+✘ no: docker run works
+? unknown: containers have access to >2 GiB of memory
+✔ yes: image is new enough for this CLI version
+
+# native is supported
+✔ yes: snakemake is installed
+✔ yes: augur is installed
+✔ yes: auspice is installed
+
+# aws-batch is not supported
+✘ no: job description "nextstrain-job" exists
+✘ no: job queue "nextstrain-job-queue" exists
+✘ no: S3 bucket "nextstrain-jobs" exists
+
+All good!  Supported Nextstrain environments: native
+
+Setting default environment to native.
+```
+
+going to try avoiding docker (always end up with large containers), but if I need it will install
+
+</details>
+
+Run a demo
+
+```
+git clone https://github.com/nextstrain/ncov
+```
+
+data prep (scripted? I guess already prepped in the database download)
+
+Preferred workflow language = snakemake
+
+Snakemake's `defaults` and `my_profiles` probably equivalent to Nextflow's `nextflow.config` and `config` folder.
+
+```
+cd ncov
+emacs builds.yaml
+```
+
+**build.yml**  defaults
+
+```
+# Define inputs
+
+inputs:
+  - name: exampleAUS
+    metadata: data/example_metadata_aus.tsv.xz
+    sequences: data/example_sequences_aus.fasta.xz
+  - name: references
+    metadata: data/references_metadata.tsv
+    sequences: data/references_sequences.fasta
+```
+
+```
+nextstrain build . --configfiles builds.yaml --cores 1 -n -p
+```
+
