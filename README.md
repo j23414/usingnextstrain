@@ -108,4 +108,9 @@ Copy the url into your browser to view the files
 # conda method on an 13in MacBook Pro 2016 (MacOS 11.6)
 conda create -n nextstrain -c conda-forge -c bioconda \
   augur auspice nextstrain-cli nextalign snakemake awscli git pip
+  
+#hmm, conda is taking over an hour on my machine. Try mamba method
+conda install -n base -c conda-forge mamba
+mamba create -n nextstrain -c conda-forge -c bioconda \
+  augur auspice nextstrain-cli nextalign snakemake awscli git pip
 ```
