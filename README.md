@@ -1,6 +1,6 @@
-# Using Next Strain
+# Using Nextstrain
 
-An attempt to setup and run Next Strain on MacOS
+An attempt to setup and run Nextstrain on MacOS
 
 ```
 # Install Augur
