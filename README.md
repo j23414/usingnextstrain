@@ -195,7 +195,7 @@ nextstrain build . --configfiles builds.yaml --cores 1 -n -p --dag | dot -Tpng >
 nextstrain build . --configfiles builds.yaml --cores 1
 ```
 
-<details><summary>output, may need to adjust build config</summary>
+<details><summary>AUS output, may need to adjust build config</summary>
   
   ```
   Building DAG of jobs...
@@ -268,4 +268,21 @@ Exiting because a job execution failed. Look above for error message
 Complete log: /Users/jenchang/Desktop/2021_Test/ncov/.snakemake/log/2021-10-06T142056.352376.snakemake.log
   ```
 
+</details>
+
+<details><summary> Exmaple output - works!</summary>
+  
+```
+[Fri Oct  8 13:17:59 2021]
+localrule all:
+    input: auspice/ncov_default-build.json, auspice/ncov_default-build_tip-frequencies.json
+    jobid: 0
+    resources: tmpdir=/var/folders/wt/gw5b79wn4sjcpny6d0x4p1680000gn/T
+
+[Fri Oct  8 13:17:59 2021]
+Finished job 0.
+20 of 20 steps (100%) done
+Complete log: /Users/jenchang/Desktop/2021_Test/ncov/.snakemake/log/2021-10-08T131055.780644.snakemake.log
+```
+  
 </details>
