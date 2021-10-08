@@ -113,9 +113,10 @@ conda create -n nextstrain -c conda-forge -c bioconda \
 conda install -n base -c conda-forge mamba
 mamba create -n nextstrain -c conda-forge -c bioconda \
   augur auspice nextstrain-cli nextalign snakemake awscli git pip
-  
+
 # Check install
 conda activate nextstrain
+pip install epiweeks
 nextstrain check-setup --set-default
 ```
 
@@ -170,13 +171,15 @@ emacs builds.yaml
 
 **build.yml**  defaults
 
+Was originally using Aus, switched to default example.
+
 ```
 # Define inputs
 
 inputs:
-  - name: exampleAUS
-    metadata: data/example_metadata_aus.tsv.xz
-    sequences: data/example_sequences_aus.fasta.xz
+  - name: example
+    metadata: data/example_metadata.tsv
+    sequences: data/example_sequences.fasta.gz
   - name: references
     metadata: data/references_metadata.tsv
     sequences: data/references_sequences.fasta
