@@ -270,7 +270,7 @@ Complete log: /Users/jenchang/Desktop/2021_Test/ncov/.snakemake/log/2021-10-06T1
 
 </details>
 
-<details><summary> Exmaple output - works!</summary>
+<details><summary> Example output - works!</summary>
   
 ```
 [Fri Oct  8 13:17:59 2021]
@@ -286,3 +286,42 @@ Complete log: /Users/jenchang/Desktop/2021_Test/ncov/.snakemake/log/2021-10-08T1
 ```
   
 </details>
+
+View dashboard
+
+```
+nextstrain view auspice/
+```
+
+Output
+
+```
+
+——————————————————————————————————————————————————————————————————————————————
+    The following datasets should be available in a moment:
+       • http://127.0.0.1:4000/ncov/default-build
+——————————————————————————————————————————————————————————————————————————————
+
+[verbose]	Serving index / favicon etc from  "/Users/jenchang/miniconda/envs/nextstrain/lib/auspice/node_modules/auspice"
+[verbose]	Serving built javascript from     "/Users/jenchang/miniconda/envs/nextstrain/lib/auspice/node_modules/auspice/dist"
+
+
+---------------------------------------------------
+Auspice server now running at http://127.0.0.1:4000
+Serving auspice version 2.29.1
+Looking for datasets in /Users/jenchang/Desktop/2021_Test/ncov/auspice
+Looking for narratives in /Users/jenchang/miniconda/envs/nextstrain/lib/auspice/node_modules/auspice/narratives
+---------------------------------------------------
+
+
+GET DATASET query received: prefix=/ncov/default-build
+GET DATASET query received: prefix=/ncov/default-build&type=tip-frequencies
+GET AVAILABLE returning locally available datasets & narratives
+[warning]	Couldn't collect available narratives (path searched: /Users/jenchang/miniconda/envs/nextstrain/lib/auspice/node_modules/auspice/narratives)
+[verbose]	Error: ENOENT: no such file or directory, scandir '/Users/jenchang/miniconda/envs/nextstrain/lib/auspice/node_modules/auspice/narratives'
+GET DATASET query received: prefix=/ncov/default-build&type=root-sequence
+```
+
+Navigate to address
+
+![](example_auspice.png)
