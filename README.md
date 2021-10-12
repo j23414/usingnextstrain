@@ -2,6 +2,8 @@
 
 An attempt to setup and run Nextstrain on MacOS
 
+<details><summary>Archive old notes from Sept 28th 2018</summary>
+
 ```
 # Install Augur
 pip install nextstrain-augur
@@ -90,6 +92,8 @@ augur export \
 ```
 
 Copy the url into your browser to view the files
+  
+</details>
 
 # Restart - 2021/10/06
 
