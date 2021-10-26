@@ -2,6 +2,8 @@
 
 An attempt to setup and run Nextstrain on MacOS
 
+* [ ] Forum: https://discussion.nextstrain.org/
+
 <details><summary>Archive old notes from Sept 28th 2018</summary>
 
 ```
