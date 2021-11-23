@@ -1,10 +1,23 @@
 # Using Nextstrain
 
-An attempt to setup and run Nextstrain on MacOS
+## Background
+
+* Neher, R.A. and Bedford, T., 2015. [Nextflu: real-time tracking of seasonal influenza virus evolution in humans](https://api.semanticscholar.org/CorpusID:880543). Bioinformatics, 31(21), pp.3546-3548.
+* Hadfield, J., Megill, C., Bell, S.M., Huddleston, J., Potter, B., Callender, C., Sagulenko, P., Bedford, T. and Neher, R.A., 2018. [Nextstrain: real-time tracking of pathogen evolution](https://api.semanticscholar.org/CorpusID:8134099). Bioinformatics, 34(23), pp.4121-4123.
+* Huddleston, J., Hadfield, J., Sibley, T.R., Lee, J., Fay, K., Ilcisin, M., Harkins, E., Bedford, T., Neher, R.A. and Hodcroft, E.B., 2021. [Augur: a bioinformatics toolkit for phylogenetic analyses of human pathogens](https://api.semanticscholar.org/CorpusID:233312899). Journal of Open Source Software, 6(57), p.2906.
+
+* Other Papers: 
+  [2020_Bedford](https://api.semanticscholar.org/CorpusID:215782250)
+| [2020_Kim](https://api.semanticscholar.org/CorpusID:215718870)
+| [2020_Chu](https://api.semanticscholar.org/CorpusID:222235769)
 
 * [ ] Forum: https://discussion.nextstrain.org/
 
-<details><summary>Archive old notes from Sept 28th 2018</summary>
+* Installation Instructions: https://docs.nextstrain.org/en/latest/install.html
+
+## Prior Notes
+
+<details><summary>Notes from 28 Sept 2018</summary>
 
 ```
 # Install Augur
@@ -97,18 +110,7 @@ Copy the url into your browser to view the files
   
 </details>
 
-# Restart - 2021/10/06
-
-* Neher, R.A. and Bedford, T., 2015. [Nextflu: real-time tracking of seasonal influenza virus evolution in humans](https://api.semanticscholar.org/CorpusID:880543). Bioinformatics, 31(21), pp.3546-3548.
-* Hadfield, J., Megill, C., Bell, S.M., Huddleston, J., Potter, B., Callender, C., Sagulenko, P., Bedford, T. and Neher, R.A., 2018. [Nextstrain: real-time tracking of pathogen evolution](https://api.semanticscholar.org/CorpusID:8134099). Bioinformatics, 34(23), pp.4121-4123.
-* Huddleston, J., Hadfield, J., Sibley, T.R., Lee, J., Fay, K., Ilcisin, M., Harkins, E., Bedford, T., Neher, R.A. and Hodcroft, E.B., 2021. [Augur: a bioinformatics toolkit for phylogenetic analyses of human pathogens](https://api.semanticscholar.org/CorpusID:233312899). Journal of Open Source Software, 6(57), p.2906.
-
-* Other Papers: 
-  [2020_Bedford](https://api.semanticscholar.org/CorpusID:215782250)
-| [2020_Kim](https://api.semanticscholar.org/CorpusID:215718870)
-| [2020_Chu](https://api.semanticscholar.org/CorpusID:222235769)
-
-* Installation Instructions: https://docs.nextstrain.org/en/latest/install.html
+<details><summary>Notes from 6 Oct 2021</summary>
 
 ```
 # conda method on an 13in MacBook Pro 2016 (MacOS 11.6)
@@ -331,3 +333,41 @@ GET DATASET query received: prefix=/ncov/default-build&type=root-sequence
 Navigate to address
 
 ![](example_auspice.png)
+
+</details>
+
+## Tutorial Run - 23 Nov 2021
+
+**Tutorial List**
+
+<!-- quote so I don't get too far off track
+
+Getting started with Nextstrain, taking notes about what works well and what could be improved.
+Install Nextstrain (Docker + CLI) 
+* Run the Zika tutorial (Snakemake workflow. See Trevor's Nextflow implementation and John's WDL implementation.)
+* Run the SARS-CoV-2 tutorial (requires GISAID account)
+* Run ncov as internal Nextstrain user (only after working through what it’s like as external user)
+
+-->
+
+1. Nextstrain Installation: https://docs.nextstrain.org/en/latest/install.html
+2. Zika Tutorial: https://docs.nextstrain.org/en/latest/tutorials/zika.html
+3. SARS-CoV-2 Tutorial: https://docs.nextstrain.org/projects/ncov/en/latest/index.html
+  * with a focus on GISAID experience
+
+### 1. Nextstrain Installation
+
+Follow the [instructions](https://docs.nextstrain.org/en/latest/install.html) on a MacBook Pro 13-inch, 2016 (MacOS 11.6 Big Sur). Update XCode, miniconda, Docker and run through the commands. 
+
+```
+
+```
+
+## 2. Zika Tutorial
+
+
+
+## 3. SARS-CoV-2
+
+Focus on the workflow experience.
+ 
