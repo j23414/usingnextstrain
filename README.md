@@ -357,10 +357,145 @@ Install Nextstrain (Docker + CLI)
 
 ### 1. Nextstrain Installation
 
-Follow the [instructions](https://docs.nextstrain.org/en/latest/install.html) on a MacBook Pro 13-inch, 2016 (MacOS 11.6 Big Sur). Update XCode, miniconda, Docker and run through the commands. 
+Follow the [instructions](https://docs.nextstrain.org/en/latest/install.html) on a MacBook Pro 13-inch, 2016 (MacOS 11.6 Big Sur). Update XCode, [Miniconda](https://docs.conda.io/en/latest/miniconda.html), [Docker](https://docs.docker.com/desktop/mac/install/) and run through the commands.
+
+I also cleaned out my old conda environments `conda env list; conda env remove -n <environmentname>`. 
 
 ```
+conda update -n base conda
 
+conda create -n nextstrain -c conda-forge -c bioconda \
+  augur auspice nextstrain-cli nextalign snakemake awscli git pip
+```
+
+The conda solver is taking a long time again and gets hung up on:
+
+```
+Collecting package metadata (current_repodata.json): done
+Solving environment: failed with repodata from current_repodata.json, will retry with next repodata source.
+Collecting package metadata (repodata.json): done
+Solving environment: - 
+```
+
+Since we have tabs for "conda" and "docker", maybe we can add a "mamba" tab. 
+
+I have prior co-workers who have switched all their `conda env`s to `mamba env`s because installation is faster. Might be a good idea to promote `mamba` methods. There's an [online article](https://labs.epi2me.io/conda-or-mamba-for-production/#speed) with rough benchmarks showing mamba being faster than conda. 
+
+There's also a smaller footprint version called "micromamba" (does not depend on conda)... hmm, maybe avoid that rabbit hole for now... ([link](https://labs.epi2me.io/conda-or-mamba-for-production/#size))
+
+```
+conda install -n base -c conda-forge mamba
+```
+
+Shouldn't we update the mamba base before creating a nextstrain environment? Might want to switch the order. 
+
+```
+# Update Conda and Mamba.
+mamba update -n base conda mamba
+
+mamba create -n nextstrain -c conda-forge -c bioconda \
+ augur auspice nextstrain-cli nextalign snakemake awscli git pip
+
+conda activate nextstrain
+```
+
+Then check the setup:
+
+```
+nextstrain check-setup --set-default
+
+#> A new version of nextstrain-cli, 3.0.4, is available!  You're running 3.0.3.
+#> 
+#> Upgrade by running:
+#> 
+#>     python3.9 -m pip install --upgrade nextstrain-cli
+#> 
+#> Testing your setup…
+#> Unable to find image 'hello-world:latest' locally
+#> latest: Pulling from library/hello-world
+#> 2db29710123e: Pulling fs layer
+#> 2db29710123e: Download complete
+#> 2db29710123e: Pull complete
+#> Digest: sha256:cc15c5b292d8525effc0f89cb299f1804f3a725c8d05e158653a563f15e4f685
+#> Status: Downloaded newer image for hello-world:latest
+#> 
+#> # docker is supported
+#> ✔ yes: docker is installed
+#> ✔ yes: docker run works
+#> ? unknown: containers have access to >2 GiB of memory
+#> ✔ yes: image is new enough for this CLI version
+#> 
+#> # native is supported
+#> ✔ yes: snakemake is installed
+#> ✔ yes: augur is installed
+#> ✔ yes: auspice is installed
+#> 
+#> # aws-batch is not supported
+#> ✘ no: job description "nextstrain-job" exists
+#> ✘ no: job queue "nextstrain-job-queue" exists
+#> ✘ no: S3 bucket "nextstrain-jobs" exists
+#> 
+#> All good!  Supported Nextstrain environments: docker, native
+#> 
+#> Setting default environment to docker.
+```
+
+It automatically set the default environment to docker, maybe I can switch it to native? Some `nextstrain -setenvironment native` or similar command? Hmm where's the documentation to switch?
+
+Maybe include a line about the nextstrain help?
+
+```
+nextstrain -h
+#> usage: nextstrain [-h] {build,view,deploy,remote,shell,update,check-setup,version} ...
+#> 
+#> Nextstrain command-line interface (CLI)
+#> 
+#> The `nextstrain` program and its subcommands aim to provide a consistent way to
+#> run and visualize pathogen builds and access Nextstrain components like Augur
+#> and Auspice across computing environments such as Docker, Conda, and AWS Batch.
+#> 
+#> optional arguments:
+#>   -h, --help            show this help message and exit
+#> 
+#> commands:
+#>   {build,view,deploy,remote,shell,update,check-setup,version}
+#>     build               Run pathogen build
+#>     view                View pathogen build
+#>     deploy              Deploy pathogen build
+#>     remote              Upload, download, and manage Nextstrain files on remote sources.
+#>     shell               Start a new shell in the build environment
+#>     update              Update your local image copy
+#>     check-setup         Test your local setup
+#>     version             Show version information
+```
+
+Darn, if docker is available I can't select native.
+
+```
+nextstrain check-setup -h
+
+#> usage: nextstrain check-setup [-h] [--set-default]
+#> 
+#> Checks your local setup to see if you have a supported build environment.
+#> 
+#> Three environments are supported, each of which will be tested:
+#> 
+#>   • Our Docker image is the preferred build environment.  Docker itself must
+#>     be installed and configured on your computer first, but once it is, the
+#>     build environment is robust and reproducible.
+#> 
+#>   • Your native ambient environment will be tested for snakemake, augur, and
+#>     auspice. Their presence implies a working build environment, but does not
+#>     guarantee it.
+#> 
+#>   • Remote jobs on AWS Batch.  Your AWS account, if credentials are available
+#>     in your environment or via aws-cli configuration, will be tested for the
+#>     presence of appropriate resources.  Their presence implies a working AWS
+#>     Batch environment, but does not guarantee it.
+#> 
+#> optional arguments:
+#>   -h, --help     show this help message and exit
+#>   --set-default  Set the default environment to the first which passes check-setup. Checks run in the order: docker, native, aws-batch. (default: False)
 ```
 
 ## 2. Zika Tutorial
