@@ -604,14 +604,123 @@ augur ancestral \
   --alignment results/aligned.fasta \
   --output-node-data results/nt_muts.json \
   --inference joint
+  
+augur translate \
+  --tree results/tree.nwk \
+  --ancestral-sequences results/nt_muts.json \
+  --reference-sequence config/zika_outgroup.gb \
+  --output-node-data results/aa_muts.json
 ```
 
-For ancestral, can export aa for each gene using `--alignment-output results/aligned_aa_%GENE.fasta`, I assume `%GENE` is an internal variable? Are there other internal variables? (table of vars?)
+For translate, can export aa for each gene using `--alignment-output results/aligned_aa_%GENE.fasta`, I assume `%GENE` is an internal variable? Are there other internal variables? (table of vars?)
+
+```
+augur export v2 \
+  --tree results/tree.nwk \
+  --metadata data/metadata.tsv \
+  --node-data results/branch_lengths.json \
+              results/traits.json \
+              results/nt_muts.json \
+              results/aa_muts.json \
+  --colors config/colors.tsv \
+  --lat-longs config/lat_longs.tsv \
+  --auspice-config config/auspice_config.json \
+  --output auspice/zika.json
+```
+
+Seems to work same as build in section 1
+
+```
+nextstrain view auspice/
+
+——————————————————————————————————————————————————————————————————————————————
+    The following datasets should be available in a moment:
+       • http://127.0.0.1:4000/zika
+——————————————————————————————————————————————————————————————————————————————
+
+[verbose]	Serving index / favicon etc from  "/nextstrain/auspice"
+[verbose]	Serving built javascript from     "/nextstrain/auspice/dist"
+
+
+---------------------------------------------------
+Auspice server now running at http://0.0.0.0:4000
+Serving auspice version 2.32.1
+Looking for datasets in /nextstrain/auspice/data
+Looking for narratives in /nextstrain/auspice/narratives
+---------------------------------------------------
+
+
+GET DATASET query received: prefix=zika
+GET AVAILABLE returning locally available datasets & narratives
+GET DATASET query received: prefix=zika&type=root-sequence
+[warning]	Failed to read /nextstrain/auspice/data/zika_root-sequence.json
+[verbose]	Error: ENOENT: no such file or directory, open '/nextstrain/auspice/data/zika_root-sequence.json'
+```
+
+I could open and view the page. The docker instructions to 'exit' the shell was interesting (guess cause it's inside the container, probably don't need to worry about binding volumes (like singularity) to get data out of a container).
+
+`Ctrl+C` - to exit Auspice server
+
+Other options? 
+
+```
+auspice view --datasetDir auspice
+
+
+---------------------------------------------------
+Auspice server now running at http://localhost:4000
+Serving auspice version 2.29.1
+Looking for datasets in /Users/jenchang/github/zika-tutorial/auspice
+Looking for narratives in /Users/jenchang/miniconda/envs/nextstrain/lib/auspice/node_modules/auspice/narratives
+---------------------------------------------------
 
 ```
 
+Worked.
+
+### Snakemake automation
+
+Yay for workflow tools, although I wish they came with type-checking... one day...
+
+```
+rm -rf results/ auspice/
+nextstrain build --cpus 1 .
+
+#> ...
+#> [Tue Nov 23 18:32:19 2021]
+#> Finished job 0.
+#> 10 of 10 steps (100%) done
+#> Complete log: /nextstrain/build/.snakemake/log/2021-11-23T183052.893733.snakemake.log
 ```
 
+I wish Snakemake's output to terminal was prettier. But I guess getting the intermediate output messages are easier to debug. As a comparison, pasting in Nextflow's output:
+
+```
+git clone https://github.com/j23414/zika-tutorial-nextflow.git
+cd zika-tutorial-nextflow
+git checkout dsl2
+
+# install nextflow
+curl -s https://get.nextflow.io | bash
+
+./nextflow run main.nf
+
+#> N E X T F L O W  ~  version 21.04.3
+#> Launching `main.nf` [peaceful_gates] - revision: 07492f85fc
+#> executor >  local (8)
+#> [c1/1c8755] process > filter (1)    [100%] 1 of 1 ✔
+#> [0b/512460] process > align (1)     [100%] 1 of 1 ✔
+#> [0a/7001e2] process > tree (1)      [100%] 1 of 1 ✔
+#> [e7/784baf] process > refine (1)    [100%] 1 of 1 ✔
+#> [1c/d0fc8c] process > ancestral (1) [100%] 1 of 1 ✔
+#> [37/cdea64] process > translate (1) [100%] 1 of 1 ✔
+#> [9a/cc1f5b] process > traits (1)    [100%] 1 of 1 ✔
+#> [90/3fd4ce] process > export (1)    [100%] 1 of 1 ✔
+#> Completed at: 22-Nov-2021 12:19:03
+#> Duration    : 1m 5s
+#> CPU hours   : (a few seconds)
+#> Succeeded   : 8
+```
 
 ## 3. SARS-CoV-2
 
