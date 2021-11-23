@@ -471,6 +471,8 @@ nextstrain -h
 
 Darn, if docker is available I can't select native.
 
+Nevermind, `victorlin` found it (thanks!): `nextstrain build --native` at [the end of the CLI installation docs](https://docs.nextstrain.org/projects/cli/en/stable/installation/).
+
 ```
 nextstrain check-setup -h
 
@@ -498,8 +500,117 @@ nextstrain check-setup -h
 #>   --set-default  Set the default environment to the first which passes check-setup. Checks run in the order: docker, native, aws-batch. (default: False)
 ```
 
+Needed to update my `nextstrain-cli` based on `check-setup` output.
+
+```
+python3.9 -m pip install --upgrade nextstrain-cli
+nextstrain check-setup --set-default    #<= ran again, still set to docker
+```
+
+**Run a build**
+
+```
+conda activate nextstrain
+git clone https://github.com/nextstrain/zika-tutorial
+nextstrain build --cpus 1 zika-tutorial/      # --native
+nextstrain view zika-tutorial/auspice/
+
+——————————————————————————————————————————————————————————————————————————————
+    The following datasets should be available in a moment:
+       • http://127.0.0.1:4000/zika
+——————————————————————————————————————————————————————————————————————————————
+
+[verbose]	Serving index / favicon etc from  "/nextstrain/auspice"
+[verbose]	Serving built javascript from     "/nextstrain/auspice/dist"
+
+
+---------------------------------------------------
+Auspice server now running at http://0.0.0.0:4000
+Serving auspice version 2.32.1
+Looking for datasets in /nextstrain/auspice/data
+Looking for narratives in /nextstrain/auspice/narratives
+---------------------------------------------------
+
+
+GET DATASET query received: prefix=zika
+GET AVAILABLE returning locally available datasets & narratives
+GET DATASET query received: prefix=zika&type=root-sequence
+```
+
+Still works
+
+![](buildtest.png)
+
 ## 2. Zika Tutorial
 
+While section 1 contained a quick build test, let's walk through the [Zika Tutorial](https://docs.nextstrain.org/en/latest/tutorials/zika.html) manually.
+
+```
+conda activate nextstrain
+git clone https://github.com/nextstrain/zika-tutorial.git
+cd zika-tutorial
+```
+
+Good explaination for the metadata and sequences, but I was expecting the example sequence header ">PAN/CDC_259359_V1_V3/2015" to be at least one of the rows the first example metadata file. "CDC..." does show up in a later metadata file.
+
+```
+mkdir -p results
+
+augur index \
+  --sequences data/sequences.fasta \
+  --output results/sequence_index.tsv   #<=
+  
+augur filter \
+  --sequences data/sequences.fasta \
+  --sequence-index results/sequence_index.tsv \
+  --metadata data/metadata.tsv \
+  --exclude config/dropped_strains.txt \
+  --output results/filtered.fasta \
+  --group-by country year month \
+  --sequences-per-group 20 \
+  --min-date 2012
+
+augur align \
+  --sequences results/filtered.fasta \
+  --reference-sequence config/zika_outgroup.gb \
+  --output results/aligned.fasta \
+  --fill-gaps
+
+augur tree \
+  --alignment results/aligned.fasta \
+  --output results/tree_raw.nwk
+  
+augur refine \
+  --tree results/tree_raw.nwk \
+  --alignment results/aligned.fasta \
+  --metadata data/metadata.tsv \
+  --output-tree results/tree.nwk \
+  --output-node-data results/branch_lengths.json \
+  --timetree \
+  --coalescent opt \
+  --date-confidence \
+  --date-inference marginal \
+  --clock-filter-iqd 4
+  
+augur traits \
+  --tree results/tree.nwk \
+  --metadata data/metadata.tsv \
+  --output-node-data results/traits.json \
+  --columns region country \
+  --confidence
+
+augur ancestral \
+  --tree results/tree.nwk \
+  --alignment results/aligned.fasta \
+  --output-node-data results/nt_muts.json \
+  --inference joint
+```
+
+For ancestral, can export aa for each gene using `--alignment-output results/aligned_aa_%GENE.fasta`, I assume `%GENE` is an internal variable? Are there other internal variables? (table of vars?)
+
+```
+
+```
 
 
 ## 3. SARS-CoV-2
