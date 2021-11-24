@@ -722,7 +722,71 @@ curl -s https://get.nextflow.io | bash
 #> Succeeded   : 8
 ```
 
+Could even use [conda or mamba to install nextflow](https://anaconda.org/bioconda/nextflow). 
+
+```
+conda install -c bioconda nextflow
+```
+
 ## 3. SARS-CoV-2
 
 Focus on the workflow experience.
- 
+
+* Start on the [SARS-CoV-2 Tutorial](https://docs.nextstrain.org/projects/ncov/en/latest/index.html). 
+* Looking through the menu, picked [Preparing your data](https://docs.nextstrain.org/projects/ncov/en/latest/analysis/data-prep.html)
+* Looking through another menu, picked [Curate data from GISAID search and downloads](https://docs.nextstrain.org/projects/ncov/en/latest/analysis/data-prep.html#curate-data-from-gisaid-search-and-downloads)
+
+Click on EpiCoV. There's a new tab "EpiRSV" for the screenshot, probably doesn't matter. 
+
+Gosh I've forgotten how slow...
+
+<details><summary>view gisaid</summary>
+
+![](gisaid_wait.png)
+
+</details>
+
+
+Still great that we don't need to download sequences one at a time.
+
+After the search had `5,829` results, maximum download is 5K at a time. Therefore, download in 2 batches (`2021-05-01 to 2021-05-15` and `2021-05-16 to 2021-06-01`)
+
+Hmm, so ncov is necessary, Snakemake doesn't automatically pull the pipeline? Maybe I need to dig into Snakemake
+
+```
+nextflow run j23414/zika-tutorial-nextflow -r dsl2 \
+  --sequence "/path/to/seq" \
+  --metadata "/path/to/meta" \
+  ...etc
+```
+
+Fine, pull ncov
+
+```
+git clone https://github.com/nextstrain/ncov.git
+mkdir data
+mv ~/Downloads/gisaid*.tar .
+mv gisaid*.tar data/gisaid_washington.tar 
+emacs build.yaml
+```
+
+**build.yaml**
+
+```
+# Define inputs for the workflow.
+inputs:
+  - name: washington
+    # The workflow will detect and extract the metadata and sequences
+    # from GISAID tar archives.
+    metadata: data/gisaid_washington.tar
+    sequences: data/gisaid_washington.tar
+```
+
+
+
+
+
+
+
+
+
