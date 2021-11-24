@@ -782,8 +782,11 @@ inputs:
     sequences: data/gisaid_washington.tar
 ```
 
+[Nice annotated pipeline dag](https://docs.nextstrain.org/projects/ncov/en/latest/_images/basic_snakemake_build.png)
 
+Stop jumping around through links, focus on the table of contents.
 
+* return to https://docs.nextstrain.org/projects/ncov/en/latest/index.html
 
 
 
