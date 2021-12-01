@@ -197,7 +197,7 @@ inputs:
 nextstrain build . --configfiles builds.yaml --cores 1 -n -p --dag | dot -Tpng > dag.png
 ```
 
-![](dag.png)
+![](imgs/dag.png)
 
 ```
 nextstrain build . --configfiles builds.yaml --cores 1
@@ -332,7 +332,7 @@ GET DATASET query received: prefix=/ncov/default-build&type=root-sequence
 
 Navigate to address
 
-![](example_auspice.png)
+![](imgs/example_auspice.png)
 
 </details>
 
@@ -539,7 +539,7 @@ GET DATASET query received: prefix=zika&type=root-sequence
 
 Still works
 
-![](buildtest.png)
+![](imgs/buildtest.png)
 
 ## 2. Zika Tutorial
 
@@ -742,7 +742,7 @@ Gosh I've forgotten how slow...
 
 <details><summary>view gisaid</summary>
 
-![](gisaid_wait.png)
+![](imgs/gisaid_wait.png)
 
 </details>
 
