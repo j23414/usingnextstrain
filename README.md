@@ -788,8 +788,13 @@ Stop jumping around through links, focus on the table of contents.
 
 * return to https://docs.nextstrain.org/projects/ncov/en/latest/index.html
 
+[ ] Figure out why it's hanging at `augur tree`
 
+```
+/Users/jenchang/miniconda/envs/nextstrain/lib/python3.9/site-packages/Bio/Seq.py:1754: BiopythonDeprecationWarning: myseq.tomutable() is deprecated; please use MutableSeq(myseq) instead.
+  warnings.warn(
+```
 
-
+Trying `--method fasttree`, maybe I'l reduce the dataset drastically. Make gene trees instead. Find coordinates.
 
 
