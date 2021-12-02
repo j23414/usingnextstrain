@@ -876,5 +876,11 @@ augur tree  \
   warnings.warn(
 ```
 
-Waiting on `refine`
+Hmm, looks like I have to give real region data? I had set everything to "Oceania". Failed on `augur traits`.
+
+```
+  File "/Users/jenchang/miniconda/envs/nextstrain/lib/python3.9/site-packages/augur/traits.py", line 179, in run
+    mugration_states[node.name][column+'_confidence'] = node.__getattribute__(column+'_confidence')
+AttributeError: 'Clade' object has no attribute 'country_confidence'
+```
 
