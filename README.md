@@ -797,4 +797,83 @@ Stop jumping around through links, focus on the table of contents.
 
 Trying `--method fasttree`, maybe I'l reduce the dataset drastically. Make gene trees instead. Find coordinates.
 
+### Restart 2021/12/02
+
+Start at [setup](https://docs.nextstrain.org/projects/ncov/en/latest/analysis/setup.html) and continue down table of contents. Skip conda setup (since already installed)
+
+```
+git clone https://github.com/nextstrain/ncov.git
+cd ncov
+```
+
+The getting_started build worked and the drag and drop interface was slick.
+
+```
+nextstrain build . --cores 4 \
+  --configfile ./my_profiles/getting_started/builds.yaml
+```
+
+[Preparing your data](https://docs.nextstrain.org/projects/ncov/en/latest/analysis/data-prep.html)
+
+Minor modification, download the latest ~5K sequences for each clade. Subsample from these clade files. Create own metadata.
+
+[prep_data.sh](prep_data.sh)
+
+Example:
+
+```
+strain  date    virus   region
+alpha|hCoV-19/Cambodia/728834/2021|EPI_ISL_XXXX|2021-08-15   2021-08-15      ncov    Oceania
+alpha|hCoV-19/England/PHEC-S304S9C2/2021|EPI_ISL_XXXX|2021-08-16     2021-08-16      ncov    Oceania
+alpha|hCoV-19/England/PHEC-S306SC8B/2021|EPI_ISL_XXXX|2021-08-17     2021-08-17      ncov    Oceania
+beta|hCoV-19/South_Africa/NICD-N20580/2021|EPI_ISL_XXXX|2021-10-08   2021-10-08      ncov    Oceania
+beta|hCoV-19/South_Africa/NICD-N20581/2021|EPI_ISL_XXXX|2021-10-08   2021-10-08      ncov    Oceania
+gamma|hCoV-19/Brazil/GO-HLAGYN-1843509/2021|EPI_ISL_XXXX|2021-08-16  2021-08-16      ncov    Oceania
+gamma|hCoV-19/Brazil/AP-FIOCRUZ-53121/2021|EPI_ISL_XXXX|2021-09-07   2021-09-07      ncov    Oceania
+gamma|hCoV-19/Brazil/RS-FIOCRUZ-53212/2021|EPI_ISL_XXXX|2021-08-17   2021-08-17      ncov    Oceania
+```
+
+**build.yaml**
+
+```
+inputs:
+  - name: rough_subsample
+    metadata: data/all_metadata.tsv
+    sequences: data/all.fa
+```
+
+Run:
+
+```
+nextstrain build . --cores 4 --configfile build.yaml
+```
+
+Okay, turns out `submitted_date` is required, ran into the same issue as https://github.com/nextstrain/ncov/issues/796
+
+```
+cat INPUT | awk -F'\t' 'OFS="\t" {print $0,$2}' > OUTPUT
+# edit last column
+```
+
+Needed to remove '|' characters from fasta and metadata, otherwise it dropped all my sequences due to "missing metadata", heh.
+
+```
+cat INPUT | tr '|' '_' > OUTPUT
+```
+
+Once again, tree building took a while, but completed.
+
+```
+augur tree  \
+ --alignment results/default-build/masked.fasta \
+ --tree-builder-args '-ninit 10 -n 4' \
+ --exclude-sites defaults/sites_ignored_for_tree_topology.txt \
+ --output results/default-build/tree_raw.nwk \
+ --nthreads 4 2>&1 | tee logs/tree_default-build.txt
+        
+/Users/jenchang/miniconda/envs/nextstrain/lib/python3.9/site-packages/Bio/Seq.py:1754: BiopythonDeprecationWarning: myseq.tomutable() is deprecated; please use MutableSeq(myseq) instead.
+  warnings.warn(
+```
+
+Waiting on `refine`
 
