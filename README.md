@@ -1,5 +1,15 @@
 # Using Nextstrain
 
+## Action Items
+
+* [ ] Delete duplicate information at "[Setup your Nextstrain environment with Conda](https://docs.nextstrain.org/projects/ncov/en/latest/analysis/setup.html#setup-your-nextstrain-environment-with-conda)" and add link/transition sentence to "[Installing Nextstrain](https://docs.nextstrain.org/en/latest/install.html)"
+* [ ] [Preparing your data](https://docs.nextstrain.org/projects/ncov/en/latest/analysis/data-prep.html) is currently describing 3 use cases. Maybe focus on the "context+focal" usecase. Show head of metadata and sequences used in this tutorial, link to offical metadata/sequence description in main manual for details. Why is there a note on Excell here? 
+* [ ] [Orientation: so what does Nextstrain do?](https://docs.nextstrain.org/projects/ncov/en/latest/analysis/orientation-workflow.html) should point to "[Parts of a whole](https://docs.nextstrain.org/en/latest/learn/parts.html)" instead of duplicating information
+* [ ] [Overview of this repository (i.e., what do these files do?)](https://docs.nextstrain.org/projects/ncov/en/latest/analysis/orientation-files.html) is really "File structure of ncov". 
+* [ ] [Running the analysis](https://docs.nextstrain.org/projects/ncov/en/latest/analysis/running.html) is 4 pages in... have this earlier. The troubleshooting section should be its own page. 
+* 
+
+
 ## Background
 
 * Neher, R.A. and Bedford, T., 2015. [Nextflu: real-time tracking of seasonal influenza virus evolution in humans](https://api.semanticscholar.org/CorpusID:880543). Bioinformatics, 31(21), pp.3546-3548.
